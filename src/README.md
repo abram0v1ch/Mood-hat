@@ -62,10 +62,10 @@ The Muse uses a BT 4.2 [BTLE](https://www.google.com/search?client=firefox-b-1-d
 ### Connecting with Petals - Questions
 
 1. Follow the [instructions on this page](https://docs.petal.tech/connect-to-muse/connect-a-muse-device) to install petals and connect to the Muse. Also make sure to follow the OS specific instructions for connecting linked on the same page. Write steps below on how to connect with the Muse.
- a) Turn BT on
- b) Open Petal Metrics
- c) Turn on Muse
- d) Start streaming and allow the app to connect
+ - Turn BT on
+ - Open Petal Metrics
+ - Turn on Muse
+ - Start streaming and allow the app to connect
 
 2. The Petals Metrics software uses OSC or LSL. What are they? What is the difference between the two? What is UDP? What is the relation between UDP and OSC?
  - LSL (Lab Streaming Layer): a research-focused EEG and marker streaming system that provides high-resolution timestamps in addition to high-frequency EEG streaming.
