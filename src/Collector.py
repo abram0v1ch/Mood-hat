@@ -69,9 +69,25 @@ class MovingAverageFilter(PreProcessingSubBlock):
 	def __init__(self, kernel_size=8, channel_count=4):
 		self.kernel_size = kernel_size
 		self.channel_count = channel_count
+		self.latest_cached_sample_id = None
 
-	def start(self, stream):
-		... #TODO implement moving average filter
+	def start(self, bci, preprocessed_cache):
+		global received_data_lock
+		while True:
+			stream_cache = bci.cache
+			with received_data_lock: # ensure no collisions with receiver
+				latest_streamed_sample_id = stream_cache[-1, 0]
+				self.latest_cached_sample_id = self.latest_cached_sample_id or latest_streamed_sample_id
+
+				# if receiveed at least kernel_size new elements, apply the filter
+				if self.latest_cached_sample_id and latest_streamed_sample_id - self.latest_cached_sample_id >= self.kernel_size:
+					self.latest_cached_sample_id = latest_streamed_sample_id
+
+					data = stream_cache[-self.kernel_size:, 1:]
+					averages = np.mean(data, axis=0)
+
+					preprocessed_cache = np.roll(preprocessed_cache, -1, axis=0)
+					preprocessed_cache[-1] = averages
 
 class OutputBlock:
 	pass
@@ -82,6 +98,7 @@ class ProcessingPipeline:
 		self.board = bci
 		self.PreProcessingBlock = []
 		self.PostProcessingBlock = []
+		self.PreProcessedCache = np.empty((save_latest, self.board.BCI_params["channel_size"]))
 		for arg in args:
 			if isinstance(arg, PreProcessingSubBlock):
 				self.PreProcessingBlock.append(arg)
@@ -90,14 +107,32 @@ class ProcessingPipeline:
 			else:
 				raise TypeError("Argument is not a processing subblock")
 
+
+	def preprocess_data(self):
+		# preprocess the data from received data cache
+		for filter in self.PreProcessingBlock:
+			filter.start(bci, self.PreProcessedCache)
+				
+	
+	def postprocess_data(self):
+		...
+		# postprocess the data
+		# add data to end cache
+
 	def run(self):
 		receive_thread = threading.Thread(target=self.board.receive_stream)
+		preprocess_thread = threading.Thread(target=self.preprocess_data)
+		# postprocess_thread = threading.Thread(target=self.postprocess_data)
 
 		# start threads
 		receive_thread.start()
+		preprocess_thread.start()
+		# postprocess_thread.start()
 
 		# finish threafs
 		receive_thread.join()
+		preprocess_thread.join()
+		# postprocess_thread.join()
 
 
 if __name__ == "__main__":
