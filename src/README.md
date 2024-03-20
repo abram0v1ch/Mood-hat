@@ -91,7 +91,16 @@ Sometimes Petal Metrics does not work with certain devices. If it doesn't and it
 
 
 ## Phase 2: Data processing and MNE
-To be Released!
+The phase involves implementation of the data collection and processing pipeline.
+1. Data collection
+ - Done using a thread that receives the stream from OSC server
+ - Upon receival, data is added to receival cache for easier further processing
+2. Data processing
+ - Involves pre-processing and post-processing
+ - Pre-processing includes moving average filter, FTF, 60 Hz filter
+ - Post-processing is to be concluded yet
+ - All processing parts are implemented using threads and add data to cache
+ - The flow of data is as follows: receival cache -> pre-processing -> post-processing cache -> post-processing -> end cache
 
 ## Phase 3: Machine Learning
 To be Released!
