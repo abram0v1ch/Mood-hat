@@ -13,7 +13,7 @@ def send_random_eeg_data(client, start_time, sample_id):
 
 if __name__ == "__main__":
     client = udp_client.SimpleUDPClient("127.0.0.1", 14739) # default OSC port
-    sampling_rate = 1
+    sampling_rate = 256
 
     sample_id = 0
 
@@ -26,4 +26,4 @@ if __name__ == "__main__":
             # ensure even rate
             if time_elapsed < 1.0:
                 time.sleep((1.0 - time_elapsed) / sampling_rate)
-        time.sleep(1) # add delay between to see how packets arrive
+        # time.sleep(1) # add delay between to see how packets arrive

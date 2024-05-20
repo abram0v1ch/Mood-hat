@@ -2,17 +2,13 @@
 
 # Introduction
 
-The EEG Mood Hat is artistic EEG visualizer project that works with the Muse to stream, process, and visualize the user EEG data onto an RGB LED matrix! This project is a great way to learn all the essential skills for Neurotech software projects, and a open-ended project that lets you experiment and explore your creative side with neurotechnology!
+The EEG Mood Hat is artistic EEG visualizer project that works with the Muse headset to stream, process, and visualize the user EEG data. The implementation is pretty basic and was not properly tested.
 
-The project has been split into several sections/phases, each of which you can realistically finish in one or two sessions (hyperlinked below). 
+# In this repo:
+1. Connecting headsets and streaming data
+2. Data processing pipeline and MNE
 
-1. Phase 1: Connecting headsets and streaming data
-2. Phase 2: Data processing and MNE
-3. Phase 3: Machine Learning
-4. Phase 4: Circuits
-5. Phase 5: Integration and Experimentation
-
-# Phase 1: Connecting Headsets and Streaming Data
+# Connecting Headsets and Streaming Data
 
 ## Setting Up Your Environment
 Instructions for installing miniconda can be found [here](https://docs.conda.io/projects/miniconda/en/latest/)
@@ -59,7 +55,7 @@ The most important information is the EEG Channel information; we will be focusi
 
 The Muse uses a BT 4.2 [BTLE](https://www.google.com/search?client=firefox-b-1-d&q=BTLE) connection to stream data to devices. You can hence connect the Muse to your iOS or Android devices for mobile applications, or connect to your laptops as we will do in this project. If you have an understanding of networking and wireless communications, you could create a tool to connect and directly stream information to your device, but for the sake of most projects we will use [Petals software](https://docs.petal.tech/).
 
-### Connecting with Petals - Questions
+### Connecting with Petals
 
 1. Follow the [instructions on this page](https://docs.petal.tech/connect-to-muse/connect-a-muse-device) to install petals and connect to the Muse. Also make sure to follow the OS specific instructions for connecting linked on the same page. Write steps below on how to connect with the Muse.
  - Turn BT on
@@ -84,34 +80,22 @@ The Muse uses a BT 4.2 [BTLE](https://www.google.com/search?client=firefox-b-1-d
 
 Sometimes Petal Metrics does not work with certain devices. If it doesn't and it is not a solvable issue, try doing the first phase of the project using muselsl and/or brainflow. Talk to other members or the leads if you want help trying this out. 
 
-## Pipeline design
 
 
 
 
-
-## Phase 2: Data processing and MNE
+## Data processing pipeline and MNE
 The phase involves implementation of the data collection and processing pipeline.
 1. Data collection
- - Done using a thread that receives the stream from OSC server
- - Upon receival, data is added to receival cache for easier further processing
+ - Done using a thread that receives the stream from OSC server (simulation is used by default for demo)
 2. Data processing
  - Involves pre-processing and post-processing
- - Pre-processing includes moving average filter, FTF, 60 Hz filter
- - Post-processing is to be concluded yet
- - All processing parts are implemented using threads and add data to cache
- - The flow of data is as follows: receival cache -> pre-processing -> post-processing cache -> post-processing -> end cache
-
-## Phase 3: Machine Learning
-To be Released!
-
-## Phase 4: Circuits
-To be Released!
-
-## Phase 5: Integration and Experimentation
-To be Released!
+ - Pre-processing includes moving average filter
+ - Post-processing includes frequency decomposition
+3. Output
+ - Show the intensity of alpha, beta, gamma, and theta waves
 
 
 ## Contributers
-- Anurag Rao
-- Reuben Thomas
+- Anurag Rao & Reuben Thomas (some skeleton)
+- Vasyl Abramovych (implementation)

@@ -11,7 +11,7 @@ parser.add_argument('-i', '--ip', type=str, required=False,
 parser.add_argument('-p', '--udp_port', type=int, required=False, default=14739,
                     help="The UDP port to listen on")
 parser.add_argument('-t', '--topic', type=str, required=False,
-                    default='/random', help="The topic to print") # get random data
+                    default='/random', help="The topic to print") # receive random data
 args = parser.parse_args()
 
 dispatcher = dispatcher.Dispatcher()
